@@ -2,14 +2,25 @@ import { styled } from "styled-components";
 import Input from "./Input";
 import Tag from "./Tag";
 import Location from "./Location";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { types } from "util";
-import { patchInstitution } from "../apis/institution";
+import { getInstitution, patchInstitution } from "../apis/institution";
 
 export default function Edit() {
   const [type, setType] = useState([]);
   const [value, setValue] = useState("");
   const [pos, setPos] = useState([]);
+  const [data, setData] = useState({
+    name: "",
+    range_points: [],
+  });
+
+  useEffect(() => {
+    getInstitution().then((res) => {
+      setData(res.data);
+      setValue(res.data.name);
+    });
+  }, []);
 
   const onChangeType = (e) => {
     setType([...type, e.target.id]);
@@ -25,6 +36,7 @@ export default function Edit() {
             <div>
               <Input
                 name={"기관명"}
+                value={data.name}
                 onChange={(e) => {
                   setValue(e.target.value);
                 }}
@@ -54,7 +66,13 @@ export default function Edit() {
               </label>
             </div>
           </div>
-          <p>건의 범위</p>
+          <p
+            style={{
+              marginBottom: "10px",
+            }}
+          >
+            건의 범위
+          </p>
           <MapWrapper>
             <Location
               width={1040}
@@ -62,6 +80,7 @@ export default function Edit() {
               onChange={(value) => {
                 setPos(value);
               }}
+              points={data.range_points}
             />
           </MapWrapper>
           <Button
@@ -73,7 +92,7 @@ export default function Edit() {
                 range_points: pos,
               });
               patchInstitution(value, type, pos).then((res) => {
-                window.location.href = "/suggestion/CREATED";
+                /* window.location.href = "/suggestion/CREATED"; */
               });
             }}
           >

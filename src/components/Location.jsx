@@ -3,12 +3,12 @@ import React, { useEffect } from "react";
 
 export const POS = [36.3462656, 127.369216];
 
-const Location = ({ width, height, onChange }) => {
-  window.onload = () => {
+const Location = ({ width, height, onChange, points = [] }) => {
+  useEffect(() => {
     var mapContainer = document.getElementById("map"), // 지도를 표시할 div
       mapOption = {
         center: new kakao.maps.LatLng(36.3462656, 127.369216), // 지도의 중심좌표
-        level: 3, // 지도의 확대 레벨
+        level: 9, // 지도의 확대 레벨
       };
 
     var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -18,6 +18,18 @@ const Location = ({ width, height, onChange }) => {
     var polygon; // 그리기가 종료됐을 때 지도에 표시할 다각형 객체입니다
     var areaOverlay; // 다각형의 면적정보를 표시할 커스텀오버레이 입니다
 
+    polygon = new kakao.maps.Polygon({
+      map: map, // 다각형을 표시할 지도입니다
+      path: points.map(
+        (value) => new kakao.maps.LatLng(value.latitude, value.longitude)
+      ), // 다각형을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
+      strokeWeight: 3, // 선의 두께입니다
+      strokeColor: "#00a0e9", // 선의 색깔입니다
+      strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+      strokeStyle: "solid", // 선의 스타일입니다
+      fillColor: "#00a0e9", // 채우기 색깔입니다
+      fillOpacity: 0.2, // 채우기 불투명도입니다
+    });
     // 마우스 클릭 이벤트가 발생하고나면 drawingFlag가 그려지고 있는 상태인 ture 값으로 바뀝니다
     // 그려지고 있는 상태인 경우 drawingPolygon 으로 그려지고 있는 다각형을 지도에 표시합니다
     // 마우스 오른쪽 클릭 이벤트가 발생하면 drawingFlag가 그리기가 종료된 상태인 false 값으로 바뀌고
@@ -28,6 +40,7 @@ const Location = ({ width, height, onChange }) => {
     kakao.maps.event.addListener(map, "click", function (mouseEvent) {
       // 마우스로 클릭한 위치입니다
       var clickPosition = mouseEvent.latLng;
+      console.log(clickPosition);
 
       // 지도 클릭이벤트가 발생했는데 다각형이 그려지고 있는 상태가 아니면
       if (!drawingFlag) {
@@ -153,7 +166,7 @@ const Location = ({ width, height, onChange }) => {
         drawingFlag = false;
       }
     });
-  };
+  }, [points]);
 
   return (
     <div id="map" style={{ width: `${width}px`, height: `${height}px` }}></div>
