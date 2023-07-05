@@ -7,6 +7,7 @@ import Suggestion from "./components/Suggestion";
 import Edit from "./components/Edit";
 import Suggest from "./components/Suggest";
 import MobileSuggest from "./components/Mobile";
+import DashBoard from "./components/Dashboard";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/edit" element={<Edit />} />
           <Route path="/suggest" element={<Suggest />} />
           <Route path="/suggest/mobile" element={<MobileSuggest />} />
+          <Route path="/dashboard" element={<DashBoard />} />
         </Routes>
       </BrowserRouter>
     </Wrapper>

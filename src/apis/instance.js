@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const instance = axios.create({
   baseURL: "https://test.aliens-dms.com",
-  timeout: 1000,
+  timeout: 10000,
 });
 
 async function getToken() {
@@ -28,13 +28,15 @@ instance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const {
-      response: { status },
-    } = error;
-    console.log(status);
-    if (status === 401) {
-      console.log(1297834691827364);
-      window.location.href = "/login";
+    console.log(error);
+    if (error.response) {
+      const {
+        response: { status },
+      } = error;
+      console.log(status);
+      if (status === 401) {
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
   }

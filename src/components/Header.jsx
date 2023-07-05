@@ -12,6 +12,13 @@ export default function Header() {
       <div id="links">
         <span
           onClick={() => {
+            window.location.href = "/dashboard";
+          }}
+        >
+          대시보드
+        </span>
+        <span
+          onClick={() => {
             window.location.href = "/edit";
           }}
         >
@@ -47,9 +54,10 @@ const Wrapper = styled.div`
   }
   span {
     cursor: pointer;
+    text-align: center;
   }
   > #links {
-    width: 170px;
+    width: 270px;
     display: flex;
     justify-content: space-between;
   }

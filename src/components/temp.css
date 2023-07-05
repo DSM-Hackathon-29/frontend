@@ -1,0 +1,64 @@
+#logoSize {
+  height: 37px;
+  margin-top: 5px;
+  position: absolute;
+  left: 200px;
+}
+.header_func {
+  display: inline-flex;
+  gap: 60px;
+  font-size: 18px;
+  margin-top: 7px;
+  position: absolute;
+  right: 200px;
+}
+main {
+  position: absolute;
+  top: 70px;
+  width: 1850px;
+  height: 855px;
+}
+.dashboardInCanvas {
+  position: absolute;
+  top: 30px;
+  left: 264px;
+}
+#dashTitel {
+  font-size: 30px;
+  font-weight: bolder;
+}
+#chartCanvas1 {
+  margin: 20px 0;
+  display: block;
+}
+#chartCanvas-1 {
+  width: 200px;
+  display: block;
+  box-sizing: border-box;
+  width: 500px;
+}
+#ranking {
+  display: block;
+  margin-top: 10px 0;
+}
+.complaints-chart,
+.keyword-chart {
+  display: inline-block;
+}
+.ranking {
+  position: absolute;
+  left: 1240px;
+  top: 170px;
+}
+.charts .complaints-chart {
+  padding-right: 140px;
+}
+
+#complaintTitel {
+  margin-bottom: 40px;
+}
+.allKeywords {
+  position: absolute;
+  top: 500px;
+  left: 264px;
+}

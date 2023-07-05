@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>대시보드</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <style>
+      #logoSize {
+        height: 37px;
+        margin-top: 5px;
+        position: absolute;
+        left: 200px;
+      }
+      .header_func {
+        display: inline-flex;
+        gap: 60px;
+        font-size: 18px;
+        margin-top: 7px;
+        position: absolute;
+        right: 200px;
+      }
+      main {
+        position: absolute;
+        top: 70px;
+        width: 1850px;
+        height: 855px;
+      }
+      .dashboardInCanvas {
+        position: absolute;
+        top: 30px;
+        left: 264px;
+      }
+      #dashTitel {
+        font-size: 30px;
+        font-weight: bolder;
+      }
+      #chartCanvas1 {
+        margin: 20px 0;
+        display: block;
+      }
+      #chartCanvas-1 {
+        width: 200px;
+        display: block;
+        box-sizing: border-box;
+        width: 500px;
+      }
+      #ranking {
+        display: block;
+        margin-top: 10px 0;
+      }
+      .complaints-chart,
+      .keyword-chart {
+        display: inline-block;
+      }
+      .ranking {
+        position: absolute;
+        left: 1240px;
+        top: 170px;
+      }
+      .charts .complaints-chart {
+        padding-right: 140px;
+      }
+
+      #complaintTitel {
+        margin-bottom: 40px;
+      }
+      .allKeywords {
+        position: absolute;
+        top: 500px;
+        left: 264px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="dashboardInCanvas">
+        <div id="dashTitel">대시보드</div>
+        <div class="charts">
+          <div class="complaints-chart">
+            <div id="chartCanvas1" id="complaintTitel">민원 현황</div>
+            <canvas
+              id="chartCanvas-1"
+              style="height: 330px; width: 430px"
+            ></canvas>
+          </div>
+          <div class="keyword-chart">
+            <div id="chartCanvas1">이번 주 키워드</div>
+            <canvas
+              id="chartCanvas-2"
+              
+            ></canvas>
+          </div>
+        </div>
+      </section>
+      <div class="ranking"></div>
+      <section class="allKeywords">
+        <div id="keywordTitel">전체 키워드</div>
+        <div class="ranking"></div>
+      </section>
+    </main>
+
+    <script>
+      // 샘플 JSON 데이터
+      const jsonData = {
+        current_situation: [
+          {
+            date: "06-28",
+            count: 15,
+          },
+          {
+            date: "06-29",
+            count: 13,
+          },
+          {
+            date: "06-30",
+            count: 9,
+          },
+          {
+            date: "07-01",
+            count: 23,
+          },
+          {
+            date: "07-02",
+            count: 16,
+          },
+          {
+            date: "07-03",
+            count: 8,
+          },
+          {
+            date: "07-04",
+            count: 31,
+          },
+        ],
+        this_week_keyword: [
+          {
+            rank: 1,
+            name: "경사로",
+            count: 15,
+          },
+          {
+            rank: 2,
+            name: "건물",
+            count: 13,
+          },
+          {
+            rank: 3,
+            name: "가로등",
+            count: 9,
+          },
+          {
+            rank: 4,
+            name: "버스",
+            count: 8,
+          },
+          {
+            rank: 5,
+            name: "보도블럭",
+            count: 4,
+          },
+          {
+            rank: 6,
+            name: "쓰레기",
+            count: 2,
+          },
+        ],
+        keyword: [
+          {
+            rank: 1,
+            name: "경사로",
+            count: 15,
+          },
+          {
+            rank: 2,
+            name: "건물",
+            count: 13,
+          },
+          {
+            rank: 3,
+            name: "가로등",
+            count: 9,
+          },
+          {
+            rank: 4,
+            name: "버스",
+            count: 8,
+          },
+          {
+            rank: 5,
+            name: "보도블럭",
+            count: 4,
+          },
+          {
+            rank: 6,
+            name: "쓰레기",
+            count: 2,
+          },
+        ],
+      };
+
+      // 차트 렌더링 및 랭킹 업데이트 실행
+      document.addEventListener("DOMContentLoaded", () => {
+        renderCharts(jsonData);
+        updateRanking(jsonData.keyword);
+      });
+
+      /**
+       * 차트 렌더링
+       */
+      const renderCharts = (data) => {
+        // 차트 1: 민원 현황
+        const complaintsData = data.current_situation.map((item) => item.count);
+        const complaintsLabels = data.current_situation.map(
+          (item) => item.date
+        );
+
+        const complaintsChart = new Chart(
+          document.getElementById("chartCanvas-1"),
+          {
+            data: {
+              labels: complaintsLabels,
+              datasets: [
+                {
+                  label: "증감률",
+                  type: "line",
+                  data: complaintsData,
+                  backgroundColor: "#FF7D54",
+                  borderColor: "#FF7D54",
+                  borderWidth: 2,
+                },
+                {
+                  label: "민원 수", // 순서 변경
+                  data: complaintsData,
+                  type: "bar",
+                  backgroundColor: "#9cb396b1",
+                  borderColor: "#9CB396",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              plugins: {
+                datalabels: {
+                  anchor: "end",
+                  align: "end",
+                  offset: 10,
+                  color: "black",
+                  font: {
+                    weight: "bold",
+                  },
+                },
+              },
+            },
+          }
+        );
+
+        // 차트 2: 이번 주 키워드
+        const keywordData = data.this_week_keyword.map((item) => item.count);
+        const keywordLabels = data.this_week_keyword.map((item) => item.name);
+
+        const keywordChart = new Chart(
+          document.getElementById("chartCanvas-2"),
+          {
+            type: "doughnut",
+            data: {
+              labels: keywordLabels,
+              datasets: [
+                {
+                  data: keywordData,
+                  backgroundColor: [
+                    "#CAD7B9",
+                    "#9CB396",
+                    "#5D9071",
+                    "#40827E",
+                    "#4F749F",
+                    "#6F6E94",
+                  ],
+                  borderColor: "#FFFFFF",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              plugins: {
+                datalabels: {
+                  color: "#FFFFFF",
+                  font: {
+                    weight: "bold",
+                  },
+                },
+              },
+            },
+          }
+        );
+      };
+
+      /**
+       * 랭킹 업데이트
+       */
+      /**
+       * 랭킹 업데이트
+       */
+      const updateRanking = (data) => {
+        const rankingDiv = document.querySelector(".ranking");
+        rankingDiv.innerHTML = "";
+
+        data.forEach((item, index) => {
+          const rank = item.rank;
+          const name = item.name;
+          const count = item.count;
+
+          const rankingItem = document.createElement("div");
+
+          // Set font size based on rank
+          if (rank === 1) {
+            rankingItem.style.fontSize = "29px";
+          } else if (rank === 2) {
+            rankingItem.style.fontSize = "26px";
+          } else {
+            rankingItem.style.fontSize = "20px";
+          }
+
+          rankingItem.style.margin = "12px 0"; // Add margin between ranking items
+
+          // Create circular graph element
+          const circularGraph = document.createElement("div");
+          circularGraph.className = "circular-graph";
+          circularGraph.style.display = "inline-block";
+          circularGraph.style.width = "16px";
+          circularGraph.style.height = "16px";
+          circularGraph.style.borderRadius = "50%";
+          circularGraph.style.backgroundColor = "#FF7D54";
+          circularGraph.style.marginLeft = "8px";
+
+          const total = data.reduce((acc, cur) => acc + cur.count, 0);
+          const percentage = ((count / total) * 100).toFixed(1);
+
+          rankingItem.appendChild(circularGraph);
+
+          rankingItem.innerHTML = `${rank}위: ${name} (${count}건 ${percentage}%)`;
+          rankingDiv.appendChild(rankingItem);
+        });
+      };
+    </script>
+  </body>
+</html>

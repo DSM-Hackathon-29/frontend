@@ -4,7 +4,7 @@ import Tag from "./Tag";
 import Location from "./Location";
 import LocationWithClick from "./LocationWIthClick";
 import { useEffect, useState } from "react";
-import { suggest, useSuggestion } from "../apis/suggestion";
+import { suggest } from "../apis/suggestion";
 import { uploadImg } from "../apis/image";
 
 export default function Suggest() {
