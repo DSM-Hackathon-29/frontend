@@ -27,7 +27,7 @@ export default function MobileSuggest() {
         <InputForm>
           <div>
             <Input
-              name={"휴대폰"}
+              name={"전화번호 (선택)"}
               onChange={(e) => {
                 setPhone(e.target.value);
               }}
@@ -45,7 +45,7 @@ export default function MobileSuggest() {
           <MapWrapper>
             <LocationWithClick
               width={1040}
-              height={440}
+              height={300}
               onChange={(value, pos) => {
                 setAddress(value);
                 setPos(pos);
@@ -122,7 +122,7 @@ export default function MobileSuggest() {
               }}
             />
           </InputLabel>
-          <p style={{ margin: "14px 10px 10px" }}>사유</p>
+          <p style={{ margin: "14px 10px 10px" }}>건의 내용</p>
           <TextArea onChange={(e) => setDesc(e.target.value)} />
           <Button
             type="button"
@@ -221,7 +221,7 @@ const InputForm = styled.form`
 
 const MapWrapper = styled.div`
   width: 100%;
-  height: 440px;
+  height: 340px;
   margin-top: 10px;
 `;
 
@@ -237,7 +237,7 @@ const Button = styled.button`
 `;
 
 const ImgInput = styled.div`
-  width: 100%;
+  height: 150px;
   aspect-ratio: 1/1;
   background: #f9f9f9;
   border-radius: 10px;

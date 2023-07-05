@@ -32,7 +32,7 @@ export default function Suggest() {
                   setValue(e.target.value);
                 }}
               />
-              <Input name={"전화번호"} />
+              <Input name={"전화번호 (전체)"} />
               <Input name={"건의 장소"} value={address} readonly />
             </div>
             <div id="radio">
@@ -114,7 +114,7 @@ export default function Suggest() {
               }}
             />
           </InputLabel>
-          <p>사유</p>
+          <p>건의 내용</p>
           <TextArea onChange={(e) => setDesc(e.target.value)} />
           <Button
             type="button"
