@@ -32,7 +32,7 @@ export default function Suggest() {
                   setValue(e.target.value);
                 }}
               />
-              <Input name={"전화번호 (전체)"} />
+              <Input name={"전화번호 (선택)"} />
               <Input name={"건의 장소"} value={address} readonly />
             </div>
             <div id="radio">
