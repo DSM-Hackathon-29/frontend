@@ -66,9 +66,7 @@ const LocationWithClick = ({
     // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
   }, []);
 
-  return (
-    <div id="map" style={{ width: `${width}px`, height: `${height}px` }}></div>
-  );
+  return <div id="map" style={{ width: "100%", height: `${height}px` }}></div>;
 };
 
 export default LocationWithClick;

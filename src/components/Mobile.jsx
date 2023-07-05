@@ -7,13 +7,14 @@ import { useEffect, useState } from "react";
 import { suggest, useSuggestion } from "../apis/suggestion";
 import { uploadImg } from "../apis/image";
 
-export default function Suggest() {
+export default function MobileSuggest() {
   const [address, setAddress] = useState("");
   const [pos, setPos] = useState();
   const [value, setValue] = useState("");
   const [img, setImg] = useState("");
-  const [type, setType] = useState("ECT");
+  const [type, setType] = useState("");
   const [description, setDesc] = useState("");
+  const [phone, setPhone] = useState("");
 
   const onChangeType = (e) => {
     setType(e.target.id);
@@ -25,21 +26,33 @@ export default function Suggest() {
         <h1>건의하기</h1>
         <InputForm>
           <div>
-            <div>
-              <Input
-                name={"제목"}
-                onChange={(e) => {
-                  setValue(e.target.value);
-                }}
-              />
-              <Input
-                name={""}
-                onChange={(e) => {
-                  setValue(e.target.value);
-                }}
-              />
-              <Input name={"건의 장소"} value={address} readonly />
-            </div>
+            <Input
+              name={"휴대폰"}
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+            />
+
+            <Input
+              name={"제목"}
+              onChange={(e) => {
+                setValue(e.target.value);
+              }}
+            />
+
+            <Input name={"건의 장소 (지도 클릭)"} value={address} readonly />
+          </div>
+          <MapWrapper>
+            <LocationWithClick
+              width={1040}
+              height={440}
+              onChange={(value, pos) => {
+                setAddress(value);
+                setPos(pos);
+              }}
+            />
+          </MapWrapper>
+          <div>
             <div id="radio">
               <p>건의 종류</p>
               <div>
@@ -91,17 +104,7 @@ export default function Suggest() {
               </div>
             </div>
           </div>
-          <MapWrapper>
-            <LocationWithClick
-              width={1040}
-              height={440}
-              onChange={(value, pos) => {
-                setAddress(value);
-                setPos(pos);
-              }}
-            />
-          </MapWrapper>
-          <p>사진</p>
+          <p style={{ margin: "14px 10px 10px" }}>사진</p>
           <InputLabel>
             <ImgInput>
               {img && <img src={img} alt="" />}
@@ -119,21 +122,33 @@ export default function Suggest() {
               }}
             />
           </InputLabel>
-          <p>사유</p>
+          <p style={{ margin: "14px 10px 10px" }}>사유</p>
           <TextArea onChange={(e) => setDesc(e.target.value)} />
           <Button
             type="button"
             onClick={() => {
-              suggest(
-                value,
-                type,
-                `${pos.Ma}`,
-                `${pos.La}`,
-                img,
-                description
-              ).then((res) => {
-                window.location.href = "/suggestion/CREATED";
-              });
+              if (
+                value &&
+                type &&
+                `${pos.Ma}` &&
+                `${pos.La}` &&
+                description &&
+                phone
+              ) {
+                suggest(
+                  value,
+                  type,
+                  `${pos.Ma}`,
+                  `${pos.La}`,
+                  img,
+                  description
+                ).then((res) => {
+                  alert("건의가 제출되었습니다");
+                  window.location.href += "";
+                });
+              } else {
+                alert("데이터를 모두 입력해주세요.");
+              }
             }}
           >
             제출
@@ -145,59 +160,60 @@ export default function Suggest() {
 }
 
 const Wrapper = styled.div`
+  position: relative;
+  top: -50px;
   width: 100%;
   height: 100%;
+  padding: 0 10px;
+  padding-bottom: -50px;
 `;
 
 const ContentWrapper = styled.div`
-  width: 1030px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding-top: 102px;
   > h1 {
     font-size: 30px;
+    margin-left: 14px;
   }
 `;
 
 const InputForm = styled.form`
-  margin-top: 68px;
-  > p {
+  margin-top: 30px;
+  p {
     margin-left: 10px;
     color: #555;
     font-size: 14px;
-    margin-top: 24px;
-    margin-bottom: 16px;
   }
   > div {
     display: flex;
-    justify-content: space-between;
-    > div {
-      width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      > p {
-        font-size: 14px;
-        color: #555;
-        margin-bottom: 4px;
-      }
+    flex-direction: column;
+    gap: 16px;
+    > p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 4px;
     }
   }
   #radio {
+    > p {
+      margin-left: 10px;
+      margin-top: 12px;
+    }
     > div {
       display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      gap: 0 20px;
-      > label {
-        display: flex;
-        gap: 16px;
-        align-items: center;
-        > input {
-          width: 20px;
-          height: 20px;
-        }
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+    }
+    label {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      > input {
+        width: 20px;
+        height: 20px;
       }
     }
   }
@@ -206,25 +222,23 @@ const InputForm = styled.form`
 const MapWrapper = styled.div`
   width: 100%;
   height: 440px;
-  margin-top: 24px;
+  margin-top: 10px;
 `;
 
 const Button = styled.button`
   background: #33897a;
   border: none;
-  width: 91px;
+  width: 100%;
   height: 50px;
   border-radius: 5px;
   color: white;
   font-size: 14px;
   margin-top: 30px;
-  margin-left: 936px;
-  margin-bottom: 100px;
 `;
 
 const ImgInput = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  aspect-ratio: 1/1;
   background: #f9f9f9;
   border-radius: 10px;
   font-size: 50px;
@@ -244,7 +258,7 @@ const ImgInput = styled.div`
 `;
 
 const InputLabel = styled.label`
-  width: 200px;
+  width: 100%;
   position: relative;
   display: block;
   > input {
@@ -262,4 +276,3 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   padding: 10px;
 `;
-
