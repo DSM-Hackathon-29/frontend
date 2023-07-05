@@ -22,6 +22,8 @@ export default function SuggestBlock({ title, id, type, date, registered }) {
     longitude: "", //경도
     description: "",
   });
+
+  const time = new Date(date).toLocaleTimeString();
   useEffect(() => {
     if (toggle) {
       getSuggestionDetail(id).then((res) => {
@@ -53,7 +55,11 @@ export default function SuggestBlock({ title, id, type, date, registered }) {
             </span>
             <h1>{data.title}</h1>
             <p>
-              건의 시각 <span>{data.created_at.slice(0, 10)}</span>
+              건의 시각
+              <span>
+                {new Date(date).toLocaleDateString()}{" "}
+                {time.slice(0, time.length - 3)}
+              </span>
             </p>
             <p>
               건의 유형 <Tag name={data.type} />
@@ -121,7 +127,9 @@ export default function SuggestBlock({ title, id, type, date, registered }) {
           <p>{title}</p>
           <Tag name={type} />
         </div>
-        <span>{date.slice(0, 10)}</span>
+        <span>
+          {new Date(date).toLocaleDateString()} {time.slice(0, time.length - 3)}
+        </span>
         <Detail>상세 내용 ></Detail>
       </Wrapper>
     </>
