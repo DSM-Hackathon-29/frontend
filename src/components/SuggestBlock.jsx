@@ -127,10 +127,7 @@ export default function SuggestBlock({ title, id, type, date, registered }) {
           <p>{title}</p>
           <Tag name={type} />
         </div>
-        <span>
           {new Date(date).toLocaleDateString()} {time.slice(0, time.length - 3)}
-        </span>
-        <Detail>상세 내용 ></Detail>
       </Wrapper>
     </>
   );
@@ -140,14 +137,14 @@ const Wrapper = styled.div`
   flex-shrink: 0;
   cursor: pointer;
   width: 100%;
-  height: 100px;
+  height: 70px;
   padding: 22px;
   display: flex;
   font-weight: 500;
   font-size: 18px;
   border-radius: 10px;
   background: white;
-  box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.1);
   > div {
     display: flex;
     gap: 20px;

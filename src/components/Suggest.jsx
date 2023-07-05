@@ -200,7 +200,7 @@ const InputForm = styled.form`
 const MapWrapper = styled.div`
   width: 100%;
   height: 440px;
-  margin-top: 10px;
+  margin-top: 24px;
 `;
 
 const Button = styled.button`

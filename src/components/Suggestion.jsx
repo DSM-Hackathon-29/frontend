@@ -97,9 +97,7 @@ const Suggestions = styled.div`
   gap: 15px;
   height: 600px;
   border-radius: 30px;
-  background: #f5f5f5;
-  padding: 20px 30px;
+  padding: 10px 10px;
   margin-top: 30px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   overflow-y: scroll;
 `;
