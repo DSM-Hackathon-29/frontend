@@ -32,12 +32,7 @@ export default function Suggest() {
                   setValue(e.target.value);
                 }}
               />
-              <Input
-                name={""}
-                onChange={(e) => {
-                  setValue(e.target.value);
-                }}
-              />
+              <Input name={"전화번호"} />
               <Input name={"건의 장소"} value={address} readonly />
             </div>
             <div id="radio">
@@ -187,9 +182,8 @@ const InputForm = styled.form`
   #radio {
     > div {
       display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-      gap: 0 20px;
+      flex-direction: column;
+      gap: 10px;
       > label {
         display: flex;
         gap: 16px;
@@ -262,4 +256,3 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   padding: 10px;
 `;
-
