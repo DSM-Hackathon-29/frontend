@@ -13,7 +13,8 @@ export default function App() {
     <Wrapper>
       <BrowserRouter>
         <GlobalStyles />
-        {window.location.pathname !== "/suggest/mobile" && <Header />}
+        {window.location.pathname !== "/suggest/mobile" &&
+          window.location.pathname !== "/login" && <Header />}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/suggestion/:mode" element={<Suggestion />} />
