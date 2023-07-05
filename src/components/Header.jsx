@@ -15,7 +15,7 @@ export default function Header() {
             window.location.href = "/edit";
           }}
         >
-          구역 수정하기
+          기관 설정
         </span>
         <span
           onClick={() => {

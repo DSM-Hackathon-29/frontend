@@ -41,6 +41,11 @@ export default function Edit() {
                   setValue(e.target.value);
                 }}
               />
+              <Input
+                name={"전화번호"}
+                value={'033-264-5931'}
+                onChange={(e) => {}}
+              />
             </div>
             <div>
               <p>건의 종류</p>
