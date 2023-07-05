@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "http://114.108.176.85:8123",
+  baseURL: "https://test.aliens-dms.com",
   timeout: 1000,
 });
 
