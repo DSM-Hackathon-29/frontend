@@ -256,3 +256,4 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   padding: 10px;
 `;
+
