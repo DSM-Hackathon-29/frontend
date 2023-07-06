@@ -1,6 +1,13 @@
 import { styled } from "styled-components";
 
-export default function Input({ name, onChange, value, readonly, password }) {
+export default function Input({
+  name,
+  onChange,
+  value,
+  readonly,
+  password,
+  id,
+}) {
   return (
     <Wrapper>
       <p>{name}</p>
@@ -10,6 +17,7 @@ export default function Input({ name, onChange, value, readonly, password }) {
           placeholder={name}
           onChange={onChange}
           value={value}
+          id={id}
         />
       ) : (
         <input
@@ -17,6 +25,7 @@ export default function Input({ name, onChange, value, readonly, password }) {
           placeholder={name}
           onChange={onChange}
           value={value}
+          id={id}
           readOnly
         />
       )}

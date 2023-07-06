@@ -3,7 +3,7 @@ import Input from "./Input";
 import Tag from "./Tag";
 import Location from "./Location";
 import LocationWithClick from "./LocationWIthClick";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { suggest, useSuggestion } from "../apis/suggestion";
 import { uploadImg } from "../apis/image";
 
@@ -14,10 +14,22 @@ export default function MobileSuggest() {
   const [img, setImg] = useState("");
   const [type, setType] = useState("");
   const [description, setDesc] = useState("");
+  const ref = useRef(null);
 
   const onChangeType = (e) => {
     setType(e.target.id);
   };
+
+  const onClick = () => {
+    if (ref.current) {
+      ref.current.focus();
+      console.log(1);
+    }
+  };
+
+  useEffect(() => {
+    ref.current = document.getElementById("focus");
+  }, []);
 
   return (
     <Wrapper>
@@ -25,9 +37,7 @@ export default function MobileSuggest() {
         <h1>건의하기</h1>
         <InputForm>
           <div>
-            <Input
-              name={"전화번호 (선택)"}
-            />
+            <Input name={"전화번호 (선택)"} />
 
             <Input
               name={"제목"}
@@ -36,9 +46,18 @@ export default function MobileSuggest() {
               }}
             />
 
-            <Input name={"건의 장소 (지도 클릭)"} value={address} readonly />
+            <Input
+              name={"건의 장소 (지도 클릭)"}
+              value={address}
+              readonly
+              id={"focus"}
+            />
           </div>
-          <MapWrapper>
+          <MapWrapper
+            onClick={() => {
+              ref.current.focus();
+            }}
+          >
             <LocationWithClick
               width={1040}
               height={300}
@@ -123,13 +142,7 @@ export default function MobileSuggest() {
           <Button
             type="button"
             onClick={() => {
-              if (
-                value &&
-                type &&
-                `${pos.Ma}` &&
-                `${pos.La}` &&
-                description
-              ) {
+              if (value && type && `${pos.Ma}` && `${pos.La}` && description) {
                 suggest(
                   value,
                   type,
