@@ -71,7 +71,10 @@ export default function DashBoard() {
 
   // 차트 2: 이번 주 키워드
   const keywordData = data.this_week_keyword.map((item) => item.count);
-  const keywordLabels = data.this_week_keyword.map((item) => item.name);
+  const keywordLabels = data.this_week_keyword.map((item) => {
+    const percent = Math.round(item.percent * 1000) / 10;
+    return `${item.name}^${percent}%`;
+  });
 
   const chart2 = {
     labels: keywordLabels,
@@ -94,8 +97,11 @@ export default function DashBoard() {
   const chart2options = {
     plugins: {
       datalabels: {
-        formatter: function (value, context) {
-          return `${context.chart.data.labels[context.dataIndex]}\n ${value}건`;
+        formatter: function (value, context, temp) {
+          console.log(context);
+          const [name, percent] =
+            context.chart.data.labels[context.dataIndex].split("^");
+          return `${name}\n ${percent}`;
         },
         color: "#FFFFFF",
         font: {
@@ -144,7 +150,8 @@ export default function DashBoard() {
                     }px`,
                   }}
                 >
-                  {value.rank}위 {value.name} ({value.count}건)
+                  {value.rank}위 {value.name} ({value.count}건{" "}
+                  {Math.round(value.percent * 1000) / 10}%)
                 </p>
               ))}
             </Weekkeys>
@@ -164,7 +171,8 @@ export default function DashBoard() {
                     }px`,
                   }}
                 >
-                  {value.rank}위 {value.name} ({value.count}건)
+                  {value.rank}위 {value.name} ({value.count}건{" "}
+                  {Math.round(value.percent * 1000) / 10}%)
                 </p>
               ))}
             </div>
@@ -207,7 +215,7 @@ const Graph1 = styled.div`
 `;
 
 const Graph2 = styled.div`
-  width: 400px;
+  width: 300px;
 `;
 const ContentWrapper = styled.div`
   width: 1300px;
@@ -228,7 +236,7 @@ const Graphs = styled.div`
 `;
 
 const Weekkeys = styled.div`
-  width: 220px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -244,6 +252,7 @@ const BottomContents = styled.div`
   display: flex;
   justify-content: space-between;
   padding-bottom: 20px;
+  margin-top: 40px;
 `;
 
 const TotalKeysWrapper = styled.div`
