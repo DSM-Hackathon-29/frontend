@@ -14,7 +14,6 @@ export default function MobileSuggest() {
   const [img, setImg] = useState("");
   const [type, setType] = useState("");
   const [description, setDesc] = useState("");
-  const [phone, setPhone] = useState("");
 
   const onChangeType = (e) => {
     setType(e.target.id);
@@ -28,9 +27,6 @@ export default function MobileSuggest() {
           <div>
             <Input
               name={"전화번호 (선택)"}
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
             />
 
             <Input
@@ -132,8 +128,7 @@ export default function MobileSuggest() {
                 type &&
                 `${pos.Ma}` &&
                 `${pos.La}` &&
-                description &&
-                phone
+                description
               ) {
                 suggest(
                   value,
